@@ -1,149 +1,161 @@
-def menu():
-    '''list of options of unit types to have converted for the user
-    ex:
-    >>> _1)Length
-        _2)Tempurature
-        _3)Volume
-    '''
 
-    print('_1)Length\n' '_2)Temperature\n' '_3)Volume\n' '_4)Mass\n' '_5)Area\n'
-          '_6)Time\n' '_7)Speed\n' '_8)Digital Storage\n')
+""" Fill in The Blanks Quiz.
+Asks the user for difficulty level and number of trys, and displays an approprate quiz. The quiz has numbered blanks, asks the user for their answers for each until the quiz is complete or they make the maximum number of mistakes.
+Example:
+    Run the following to test a compiled version provided by Udacity::
+        $ python tests/fill-in-the-blanks.pyc
+"""
 
-    ask_user()
-    sub_menu(user_input)
+#TODO: Move global variables to __main__
+quizes = {'easy':
+"""The capital city of the United States of America
+is ___1___. The current president of the USA is ___2___.
+___2___ is best known for being the first ___3___-American
+president of the USA. He has also received the
+Nobel ___4___ Prize.""",
+        'medium':
+"""The Theory of General ___1___ was proposed by ___2___ Einstein
+in 1915. It provides a unified description of ___3___ as a property
+of ___4___ and ___5___, also known as ___6___, and is the current
+definition of ___3___ in modern physics.""",
+        'hard':
+"""Spirited ___1___ is the ___2___ Award winning film by ___3___ Miyazaki
+and Studio ___4___. It won Best ___5___ ___6___ Film, and also won the
+Golden ___7___ at the 2002 ___8___ International Film Festival
+(among many others). It was adapted by ___9___ for the English speaking
+audience."""}
+answers = {'easy': [['Washington, D.C.', 'Washington, DC', 'Washington DC'],
+                    ['Barack Obama', 'Obama'],
+                    ['African'],
+                    ['Peace']],
+            'medium': [['Relativity'],
+                    ['Albert'],
+                    ['gravity', 'gravitation'],
+                    ['space'],
+                    ['time'],
+                    ['spacetime', 'space time']],
+            'hard': [['Away'],
+                    ['Academy', 'Oscar'],
+                    ['Hayao'],
+                    ['Ghibli'],
+                    ['Animated'],
+                    ['Feature'],
+                    ['Bear'],
+                    ['Berlin'],
+                    ['Walt Disney Pictures', 'Disney']]}
 
-def ask_user():
-    ''' asks the user what units they would like converted
-    ex:
-    >>> what units do you need to convert? meter, feet
-    >>> 3.281
-    '''
-    user_input = input("Make a selection: ")
-    print ("you entered",  user_input)
-    #conversion(user_input)
-    return user_input
+alive = True
+chances, difficulty = 1, 'easy'
 
-def convert_meters_to_feet(num):
-    '''converts a user determined ammount of meters into feet
-    ex:
-    >>> convert_meters_to_feet(50)
-    >>> 164.042
-    '''
+def setdifficulty():
+    """ Sets the quiz ``difficulty`` level. """
+    global difficulty
 
-    num_feet = num * 3.28084
-    print(num_feet)
+    print "What difficulty would you like?"
+    difficulty= raw_input("Enter easy, medium, or hard:  ")
+    while difficulty not in quizes:
+        difficulty = raw_input("Please enter one of the options [easy, medium, hard]: ")
 
+    print "This quiz will be " + difficulty + " difficulty."
+    print ""
 
-def convert_fahrenheit_to_celsius(num):
-    '''converts a user determined temperature in fahrenheit to celsius
-    ex:
-    >>> convert_fahrenheit_to_celsius(60)
-    >>> 15.6
-    >>> convert_fahrenheit_to_celsius(32)
-    >>> 0
-    '''
+def setchances():
+    """ Sets the number of ``chances`` the player gets per question. """
+    global chances
 
-    degree_celsius = (num - 32) * (5/9)
-    print(round(degree_celsius, 2))
+    chances = raw_input("How many chances would you like per question:  ")
+    while not chances.isdigit() or int(chances) < 1:
+        chances = raw_input("Please enter a number that is greater than 0:  ")
+    chances = int(chances)
+    print ""
 
+def checkanswer(possible, guess):
+    """ Case insensitive check of answer.
+    Assume inputs are in the correct format, since takeQuiz() accounts
+    for
+    Args:
+        possible (list): List of possible answers for question.
+        guess (string): User's guess for question.
+    Returns:
+        bool: True if guess is in possible, False otherwise.
+    """
+    for answer in possible:
+        if guess.lower() == answer.lower():
+            return True
+    return False
 
-def sub_menu(num):
-    '''routes the user from the main menu to a sub menu based on
-    their first selection'''
+def answerquestion(index, quiz):
+    """ Gets the player's input for blank number ``index``.
+    Sets the global variable ``alive`` to False if the player
+    has used all their chances.
+    Returns:
+        string: Quiz updated with player's answer.
+    """
+    global alive
+    chance = chances
+    answer = answers[difficulty][index]
 
-    if user_input == '1':
-        print('_1)Kilometers\n' '_2)Meters\n' '_3)Centimeters\n' '_4)Millimeters\n'
-              '_5)Mile\n' '_6)Yard\n' '_7)Foot\n' '_8)Inch\n' '_9)Nautical Mile\n')
-
-        ask = input('Make a selection (starting unit)')
-        return
-    if user_input == '2':
-        print('_1)Fahrenheit\n' '_2)Celsius\n' '_3)Kelvin\n')
-        ask = input('Make a selection (starting unit)')
-        return
-
-"""quiz_questions = ["__1__", "__2__", "__3__", "__4__"]
-quiz1_answers = ["Wrigley", "Chicago", "ivy", "Arrieta"]
-
-quiz1 = '''The Cubs play at ___1___ Field in the city of ___2___. Every spring the outfield walls becomed covered
-with __3__, a trademark of the field.  In 2015 the Cubs had the best pitcher in the National League, Jake __4__,
-who won the Cy Young Award.'''
-
-quiz2 = "Blah blah blah"
-quiz3 = "Go Cubs Go"
-
-def choose_level(level):
-    if level == 'newbie':
-        print quiz1
-    elif level == 'seasoned':
-        print quiz2
-    elif level == 'master':
-        print quiz3
-    else:
-        return choose_level(raw_input ( 'Enter your level of expertise: newbie, seasoned, master:'))
-
-def check_answer(answer):
-    answer = str(answer)
-    number_of_tries = 3
-    n = 0
-    while number_of_tries > 0:
-        if answer == quiz1_answers[n]:
-            n = n + 1
-            if n < 5:
-                print "That is correct!"
-                user_input = raw_input("What should fill in: " +quiz_questions[n]+"")
-                answer = user_input
-            else:
-                print "That is correct! Congratulations you are a Diehard Cub Fan!  GO CUBS GO!"
-
+    while chance > 0:
+        guess = raw_input("What goes in ___%s___: " % str(index+1))
+        if checkanswer(answer, guess):
+            print "Correct! \n"
+            print '-' * 20
+            quiz = quiz.replace('___%s___' % str(index+1), guess)
+            print quiz
+            print '-' * 20 + '\n'
+            break
+        elif chance > 1:
+            print "That is incorrect. Try again."
+            chance += -1
+            print chance, "chance(s) left. \n"
         else:
-            number_of_tries = number_of_tries - 1
-            if number_of_tries == 0:
-                print "Game Over!  Sorry you are not a diehard Cub fan!"
+            alive = False
+            break
+    return quiz
 
-            else:
-                print "Please Try Again.  You have : " + str(number_of_tries) + " strikes left!"
-                user_input = raw_input("What should fill in: " +quiz_questions[n]+"")
-                answer = user_input
+def takequiz():
+    """ Shows the quiz and asks the user for answers.
+    Returns:
+        bool: True if the user completes the quiz, ``False`` if they use
+        too many guesses.
+    """
+    global alive
+    alive = True
 
+    print '\n' + "* " * 10
+    print "Welcome to the quiz.\n"
+    setdifficulty()
+    quiz = quizes[difficulty]
+    setchances()
 
-def play_game():
-    level = choose_level(raw_input ('Choose your level of expertise. Type newbie, seasoned, master:'))
-    n = 0
-    user_input = raw_input("What should fill in: "+quiz_questions[n]+"")
-    word = user_input
-    check_answer(word)
+    print "Let's get started:"
+    print "=" * 20
+    print quiz
+    print "=" * 20 + '\n'
 
-play_game()
+    for index in xrange(len(answers[difficulty])):
+        quiz = answerquestion(index, quiz)
+        if not alive: break
 
+    if alive:
+        print "Great job completing the %s quiz!\n" % difficulty
+    else:
+        print "Too many wrong guesses. Game over.\n"
 
-   attempts = 3
-   for each blank in the blanks
-        get answer for blank
-        match the answer with answers
-        if answer matches, replace blank with the answer
-        ask what the next blank is
-        if answer is wrong, ask the question again with the raw_input
+    return alive
 
-for each blank in blank:
-while (answer is wrong   &&   attempts <3)
+if __name__ == '__main__':
+    ## Test functions
+    assert checkanswer(answers['easy'][0], 'washington dc') == True
+    assert checkanswer(answers['easy'][0], 'washington') == False
+    assert checkanswer(answers['medium'][5], 'space time') == True
+    assert checkanswer(answers['medium'][3], 'time') == False
+    assert checkanswer(answers['hard'][1], 'OSCAR') == True
 
-get input
+    # Main
+    while True:
+        takequiz()
 
-for each blank in blank:
-while (answer is wrong   &&   attempts <3)
-get answer
-def get_answer(answers):
-   ask = str(ask)
-   replace = []
-   index = 0
-   attempts = 0
-   while attempts < 3:
-       if ask != answers[index]:
-           attempts += 1
-
-   for items in blanks:
-       ask = raw_input("Please fill in the answer for" + items + ".").lower
-       while ask != answers(index):
-           ask = raw_input("Please fill in the answer for" + items + ".").lower
-       index += 1"""
+        if raw_input("Would you like to play again: (yes or no)  ") not in ['yes', 'y']:
+            print "Okay, good bye. \n"
+            break

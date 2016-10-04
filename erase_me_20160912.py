@@ -127,7 +127,6 @@ def collect_answers(level, paragraph, answers): #[Perry] I can see here that lev
         print replaced
 
         index += 1
-
     return replaced, index
 
 ###########################################
@@ -145,7 +144,7 @@ def play_game():
     if level == "1" or level == "2" or level == "3":
         paragraph, answers = get_setup(level)
         print paragraph
-
+        print paragraph
         replaced = collect_answers(level, paragraph, answers)
 
         print "\nYAY, " + player_name + ", YOU WON THE GAME!\n"

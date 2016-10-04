@@ -36,3 +36,12 @@ print play_game(test_string1, parts_of_speech1)
 
 
 
+#ml_string.split() = ["Hi", "my", "name", "is", "NAME", "and", "I", "really", "like", "to",
+#"VERB", "PLURALNOUN", "I'm", "also", "a", "OCCUPATION", "at", "PLACE",.]
+
+# word = items in ml_string.split()
+
+#replacement = word_in_pos(word, parts_of_speech) ---> [place, person, pluralnoun, noun, name, verb,
+#occupation, adjective]
+
+#

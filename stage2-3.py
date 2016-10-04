@@ -1,6 +1,6 @@
 #Stage 2, Final Project, "Fill-in-the-Blanks-Quiz"
 
-blanks = ["___1___", "___2___", "___3___","___4___"]
+blanks = ["__1__", "__2__", "__3__","__4__"]
 
 easy_paragraph = '''Bono is the lead singer of the band called "__1__". The happiest place on earth is "__2__". The color of grass is "__3__". The color of the sky is "__4__".'''
 medium_paragraph ='''The first president of the US was "__1__". The second president of the US was "__2__". The third president of the US was "__3__". The first African-American president is "__4__.'''
@@ -15,66 +15,71 @@ hard_answers = ['Executive', 'Legislative', 'Judicial','Abraham Lincoln']
 def get_level(level):
 
     if level == "easy":
-        print "You'll get 3 guesses"
+        
         return easy_answers, easy_paragraph
         
     elif level == "medium":
-        print "You'll get 3 guesses"
+        
         return medium_answers, medium_paragraph
-
+        
     elif level == "hard":
-        print "You'll get 3 guesses"
+       
         return hard_answers, hard_paragraph
+        
 
-
-def match_items(a,b):
-  for items in b:
-    if items in a:
+def match_items(paragraphs,blanks):
+  for items in blanks:
+    if items in paragraphs:
       return items
   return None
 
-def fill_blank_in_paragraph(paragraphs):
-  split_paragraph = paragraphs.split()
-  for items in paragraphs:
-    replacement = match_items(a,b)
-    if replacement != None:
-      items = items.replace(replacement, user_input)
-      replaced.append(items)
-  else:
-      replaced.append(items)
-  print fill_blank_in_paragraph(paragraphs,answers)
 
-def quiz_answer(answers,player_guess):
+def fill_blank_in_paragraph(paragraphs,player_guess):
+    replaced = []
+    split = paragraphs.split()
+    for word in split:
+        replacement = match_items(paragraphs,blanks)
+        if replacement != None:
+            word = word.replace(replacement, player_guess)
+            replaced.append(word)
+        else:
+            replaced.append(word)
+    replaced = " ".join(replaced) 
+    
+        
+
+def quiz_answer(answers,player_guess,paragraphs):
     replaced = []
     index = 0
     blank_count = 0
     
-    while index < 3: 
+    while index < 4: 
         if player_guess == answers[index]:
             print "Correct!"
-            fill_blank_in_paragraph(paragraphs)
+            fill_blank_in_paragraph(paragraphs,player_guess)
             index = index + 1
-        else:
-            blank_count = blank_count + 1
-            if blank_count == 3:
-                print "Game over!"
-                break
-            else:
-                print str(3-blank_count) + " chances left"
-                player_guess = raw_input("Fill in the" + blanks[index] + " ")
+    else:
+        blank_count = blank_count + 1
+        if blank_count == 4:
+            print "Game over!"
         
-                   
-    
+        else:
+            print str(3-blank_count) + " chance left"
+            player_guess = raw_input("Fill in the" + blanks[index] + " ")
+                
+        
 
 def play_game():#start - ask what level
-    level = raw_input ("Choose a level for this game: easy, medium, or hard: " ).lower()
+    level = raw_input ("Choose a level for this game: easy, medium, or hard: " )
     index = 0
-    player_guess = raw_input("Fill in the " + blanks[index] + " ")
+    print ""
+    
     if level == "easy" or level == "medium" or level == "hard":
         answers, paragraphs = get_level(level)
-        print paragraphs 
-        print "You get three guesses"
-        replace = quiz_answer(answers, player_guess)
+        print paragraphs
+        print ""
+        player_guess = raw_input("Fill in the " + blanks[index] + " ")      
+        replace = quiz_answer(answers, player_guess, paragraphs)
 
     else:
         print "Try again"
