@@ -33,8 +33,7 @@ def match_items(paragraphs,blanks):
       return items
   return None
 
-
-def fill_blank_in_paragraph(paragraphs,player_guess):
+def replace_blank(paragraphs,player_guess):
     replaced = []
     split = paragraphs.split()
     for word in split:
@@ -42,44 +41,48 @@ def fill_blank_in_paragraph(paragraphs,player_guess):
         if replacement != None:
             word = word.replace(replacement, player_guess)
             replaced.append(word)
+            
         else:
             replaced.append(word)
     replaced = " ".join(replaced) 
     
-        
+    print replaced
 
-def quiz_answer(answers,player_guess,paragraphs):
-    replaced = []
+    
+def fill_blank_in_paragraph(paragraphs,player_guess):
+    if replace_blank(paragraphs,play_guess) 
+
+
+def quiz_answer(answers,paragraphs):
+    
     index = 0
     blank_count = 0
     
     while index < 4: 
+        player_guess = raw_input("Fill in the " + blanks[index] + " ") 
         if player_guess == answers[index]:
             print "Correct!"
-            fill_blank_in_paragraph(paragraphs,player_guess)
-            index = index + 1
+            print fill_blank_in_paragraph(paragraphs,player_guess)            
+            index = index + 1             
     else:
         blank_count = blank_count + 1
-        if blank_count == 4:
+        if blank_count < 4:
             print "Game over!"
-        
-        else:
             print str(3-blank_count) + " chance left"
-            player_guess = raw_input("Fill in the" + blanks[index] + " ")
+            return player_guess 
                 
+                  
         
 
 def play_game():#start - ask what level
     level = raw_input ("Choose a level for this game: easy, medium, or hard: " )
     index = 0
     print ""
-    
     if level == "easy" or level == "medium" or level == "hard":
         answers, paragraphs = get_level(level)
         print paragraphs
-        print ""
-        player_guess = raw_input("Fill in the " + blanks[index] + " ")      
-        replace = quiz_answer(answers, player_guess, paragraphs)
+        print ""                  
+        replace = quiz_answer(answers, paragraphs)
 
     else:
         print "Try again"
