@@ -53,7 +53,7 @@ def word_in_blanks(word, blanks): #[Perry] I understand the blanks is the list a
         if blank in word: # If blank is in answer.
             return blank #[Perry] if you answered line 47, this would confirm when blank is returned, it is because it was in the blanks as well as the (easy, medium, hard )answers or paragraphs list above.
     return None
-
+    
 
 def replace_the_blank(word, replaced, blanks, user_answer, index):
     """To replace each blank with its correct answer. Part 2.
@@ -61,12 +61,13 @@ def replace_the_blank(word, replaced, blanks, user_answer, index):
     the 'user_answer' for that blank, the index number of that 'user_answer' to correctly match that with the right blank to fill in.
     Outputs: The correctly replaced paragraph."""
 
-    if word_in_blanks(word, blanks) == None:
-        if word not in replaced:
+    if word_in_blanks(word, blanks) == None:#anything that doesn't match list in blanks list
+        if word not in replaced: #if not in replaced list, put it in replaced
             replaced.append(word)
+            
     else:
-        replacement = word_in_blanks(word, blanks)
-        word = word.replace(replacement, user_answer.upper())
+        replacement = word_in_blanks(word, blanks) #replacement = matching,
+        word = word.replace(replacement, user_answer.upper())#word is replaced with user input
 
         if replacement == blanks[index]:
             if replacement not in replaced:
@@ -76,7 +77,7 @@ def replace_the_blank(word, replaced, blanks, user_answer, index):
                 replaced[position] = word
         else:
             replaced.append(replacement)
-
+    
     return replaced
 
 
