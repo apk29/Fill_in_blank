@@ -24,54 +24,52 @@ def end(paragraphs,answers):
     print ""
     print "Thanks for playing!"
 
-def get_level(level): #3 one the has been chosen, this correlates the level to the level of the answers and paragraphs
+def get_level(level):
 
     if level == "easy":
-        return easy_answers, easy_paragraph
-    elif level == "medium":
-        return medium_answers, medium_paragraph
-    elif level == "hard":
+        return easy_answers, easy_paragraph        
+    elif level == "medium":        
+        return medium_answers, medium_paragraph        
+    elif level == "hard":       
         return hard_answers, hard_paragraph
-
-def answer_questions(answers,paragraphs,blanks):#7 this function takes care of which questions to ask, takes in answers, and determines what to do.
-    index = 0
+    
+def answer_questions(answers,paragraphs,blanks):
+    index = 0 
     question_count = 1
     blank_count = 0
 
-    while index < 4: #8 This gives players the number of tries they have.
-        #9 the line below is asking for the player's input
+    while index < 4:
+        guesses = []
         player_guess = raw_input("What is your answer for" + " " + blanks[index] + " " + "?" + " ")
-        if player_guess == answers[index]: #9 if the player's input matches the answers list in the index postion, it executes the next few lines
+        if player_guess == answers[index]:
             print "Correct!"
             print str(paragraphs[index]) + " " + player_guess + "."
             print ""
-            if question_count < 4: #10 this additonal if statement is need for the line to execute properly
+            if question_count < 4:
                 print paragraphs[question_count] + " " + blanks[question_count] + "."
             index += 1
             question_count += 1
-        else:#11 if the player's input doesn't match the answers list index, this is the next step
+        else:
             blank_count = blank_count + 1
             if blank_count < 3:
-                if blank_count == 1:
-                    print "2 chance left"
-                elif blank_count == 2:
-                    print "1 chances left"
+                if blank_count > 1:
+                    print str(3-blank_count) + " chance left"
+                else:
+                    print str(3-blank_count) + " chances left"
             else:
                 print "Game over!"
                 exit(0)
-
+                       
     end(paragraphs,answers)
-
-def play_game():#1 start - ask what level
+    
+def play_game():#start - ask what level
     level = raw_input ("Choose a level for this game: easy, medium, or hard: " )
     print ""
     if level == "easy" or level == "medium" or level == "hard":
-        answers, paragraphs = get_level(level) #2 this points to the get_level(level) function
-        #4 the line below prints out the paragraphs (question) as determined by level.
+        answers, paragraphs = get_level(level)
         print paragraphs[0] + " " + blanks[0] + "." + " " + paragraphs[1] + " " + blanks[1] + "." + " " + paragraphs[2] + " " + blanks[2] + "." + " " + paragraphs[3] + " " + blanks[3] + "."
-        print "" #5 this prints out a blank line to seperate, so its not bunched up all together.
-        #6 anser_question is the next function to goto
-       answer_questions(answers,paragraphs,blanks)
+        print ""                  
+        answer_questions(answers,paragraphs,blanks)
 
     else:
         print "Try again"
