@@ -37,32 +37,34 @@ def answer_questions(answers,paragraphs,blanks):#7 this function takes care of w
     index = 0
     question_count = 1
     blank_count = 0
-
-    while index < 4: #8 This gives players the number of tries they have.
+    max_tries = 4
+    attempts = 3
+    chance = 2
+    chances = 1
+    while index < max_tries: #8 This gives players the number of tries they have.
         #9 the line below is asking for the player's input
         player_guess = raw_input("What is your answer for" + " " + blanks[index] + " " + "?" + " ")
         if player_guess == answers[index]: #9 if the player's input matches the answers list in the index postion, it executes the next few lines
-            print "Correct!"
-            print str(paragraphs[index]) + " " + player_guess + "."
+            print "Correct" + "," + " " + str(paragraphs[index]) + " " + player_guess + "."
             print ""
-            if question_count < 4: #10 this additonal if statement is need for the line to execute properly
+            if question_count < max_tries: #10 this additonal if statement is needed for the line to execute properly
                 print paragraphs[question_count] + " " + blanks[question_count] + "."
             index += 1
             question_count += 1
         else:#11 if the player's input doesn't match the answers list index, this is the next step
             blank_count = blank_count + 1
-            if blank_count < 3:
-                if blank_count == 1:
-                    print "2 chance left"
-                elif blank_count == 2:
-                    print "1 chances left"
+            if blank_count < attempts:
+                if blank_count == chances: #account for chance vs chances, not necessary but grammatically correct
+                    print "2 chances left"
+                elif blank_count == chance:
+                    print "1 chance left"
             else:
                 print "Game over!"
                 exit(0)
 
     end(paragraphs,answers)
 
-def play_game():#1 start - ask what level
+def play_game():#1 start - ask what level inputs and correlates the definitions of the answers & paragraphs lists, starts the answers_questions function
     level = raw_input ("Choose a level for this game: easy, medium, or hard: " )
     print ""
     if level == "easy" or level == "medium" or level == "hard":
@@ -71,7 +73,7 @@ def play_game():#1 start - ask what level
         print paragraphs[0] + " " + blanks[0] + "." + " " + paragraphs[1] + " " + blanks[1] + "." + " " + paragraphs[2] + " " + blanks[2] + "." + " " + paragraphs[3] + " " + blanks[3] + "."
         print "" #5 this prints out a blank line to seperate, so its not bunched up all together.
         #6 anser_question is the next function to goto
-       answer_questions(answers,paragraphs,blanks)
+        answer_questions(answers,paragraphs,blanks)
 
     else:
         print "Try again"
